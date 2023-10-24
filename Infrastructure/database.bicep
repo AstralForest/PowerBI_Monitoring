@@ -3,11 +3,11 @@ param location string = resourceGroup().location
 
 @secure()
 @description('The administrator login username for the SQL server.')
-param sqlServerAdministratorLogin string
+param sqlServerAdministratorLogin string = 'sqladmin'
 
 @secure()
 @description('The administrator login password for the SQL server.')
-param sqlServerAdministratorLoginPassword string
+param sqlServerAdministratorLoginPassword string = 'DemoAdmin!@3'
 
 @description('The name and tier of the SQL database SKU.')
 param sqlDatabaseSku object = {
@@ -15,8 +15,8 @@ param sqlDatabaseSku object = {
   tier: 'Standard'
 }
 
-param sqlServerName string = 'sql_pbim_demo_${location}${uniqueString(resourceGroup().id)}'
-param sqlDatabaseName string = 'sqldb_pbim_demo'
+param sqlServerName string = take('sql-pbim-demo-${uniqueString(resourceGroup().id)}', 24)
+param sqlDatabaseName string = 'sqldb-pbim-demo'
 
 resource sqlServer 'Microsoft.Sql/servers@2021-11-01-preview' = {
   name: sqlServerName
